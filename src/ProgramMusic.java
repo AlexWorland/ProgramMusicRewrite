@@ -19,16 +19,13 @@ public class ProgramMusic {
         File file = new File(filepath);
         filepath = "./hello.zip";
 
-        try {
-            Synthesizer synthesizer = MidiSystem.getSynthesizer();
-            play(file, channel, durationMultiplier, reverbTimeMilli);
-            export(file, channel, durationMultiplier, reverbTimeMilli);
-            file = new File(filepath);
-            play(file, channel, durationMultiplier, reverbTimeMilli);
-            export(file, channel, durationMultiplier, reverbTimeMilli);
-        } catch (MidiUnavailableException e) {
-            e.printStackTrace();
-        }
+
+        play(file, channel, durationMultiplier, reverbTimeMilli);
+        export(file, channel, durationMultiplier, reverbTimeMilli);
+        file = new File(filepath);
+        play(file, channel, durationMultiplier, reverbTimeMilli);
+        export(file, channel, durationMultiplier, reverbTimeMilli);
+
     }
 
     public static void export(File file, int channel, int durationMultiplier, int reverbTimeMilli) {
@@ -82,8 +79,9 @@ public class ProgramMusic {
 
             int[] allowedTypes = MidiSystem.getMidiFileTypes(sequence);
             MidiSystem.write(sequence, allowedTypes[0], new File(file.getName() + ".mid"));
-        } catch (Exception e) {
-            System.out.println(e);
+
+        } catch (InvalidMidiDataException | IOException e) {
+            e.printStackTrace();
         }
     }
 
